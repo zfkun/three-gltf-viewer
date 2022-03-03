@@ -116,12 +116,18 @@ class App {
       if (typeof rootFile === 'object') URL.revokeObjectURL(fileURL);
     };
 
+    console.info(rootFile, rootPath, fileMap)
+    viewer.setFile(rootFile)
+
     viewer
       .load(fileURL, rootPath, fileMap)
       .catch((e) => this.onError(e))
       .then((gltf) => {
         if (!this.options.kiosk) {
-          this.validationCtrl.validate(fileURL, rootPath, fileMap, gltf);
+          this.validationCtrl.validate(fileURL, rootPath, fileMap, gltf)
+          .then(() => {
+            viewer.setValidation(this.validationCtrl.getReport())
+          })
         }
         cleanup();
       });

@@ -203,12 +203,21 @@ export class ValidationController {
 
   hideToggle () {
     this.toggleEl.classList.add('hidden');
+    const el = document.querySelector('.reporter');
+    if (el) el.style.display = 'none';
   }
 
   showLightbox () {
     if (!this.report) return;
-    const tab = window.open('', '_blank');
-    tab.document.body.innerHTML = this.reportTpl(Object.assign({}, this.report, {location: location}));
+    const el = document.querySelector('.reporter');
+    if (el) {
+      el.innerHTML = this.reportTpl(Object.assign({}, this.report, {location: location}));
+      el.style.display = el.style.display === '' ? 'none' : '';
+    }
+  }
+
+  getReport () {
+    return this.report;
   }
 }
 

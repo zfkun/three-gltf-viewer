@@ -92,7 +92,17 @@ export class Viewer {
       directIntensity: 0.8 * Math.PI, // TODO(#116)
       directColor: 0xFFFFFF,
       bgColor1: '#ffffff',
-      bgColor2: '#353535'
+      bgColor2: '#353535',
+
+      // File
+      file: {
+        name: '',
+        size: 0,
+        type: '',
+      },
+
+      // Validation
+      validation: {},
     };
 
     this.prevTime = 0;
@@ -141,6 +151,7 @@ export class Viewer {
     this.animCtrls = [];
     this.morphFolder = null;
     this.morphCtrls = [];
+    this.infoFolder = null;
     this.skeletonHelpers = [];
     this.gridHelper = null;
     this.axesHelper = null;
@@ -255,6 +266,94 @@ export class Viewer {
 
     });
 
+  }
+
+  setFile ( file ) {
+    // lastModified
+    // lastModifiedDate
+    this.state.file.name = file.name;
+    this.state.file.size = file.size;
+    this.state.file.type = file.type;
+    this.state.file.lastModified = file.lastModified;
+  }
+
+  setValidation (report) {
+    if (this.validationFolder) {
+      this.validationFolder.domElement.style.display = '';
+      this.gui.removeFolder(this.validationFolder)
+    }
+    this.validationFolder = this.gui.addFolder('Validation')
+
+    this.state.validation = report
+
+    this.validationFolder.add(this.state.validation, 'mimeType');
+    this.validationFolder.add(this.state.validation, 'validatedAt');
+    this.validationFolder.add(this.state.validation, 'validatorVersion');
+
+    const statsFolder = this.validationFolder.addFolder("info");
+    statsFolder.add(this.state.validation.info, 'animationCount');
+    statsFolder.add(this.state.validation.info, 'drawCallCount');
+    statsFolder.add(this.state.validation.info, 'hasDefaultScene');
+    statsFolder.add(this.state.validation.info, 'hasMorphTargets');
+    statsFolder.add(this.state.validation.info, 'hasSkins');
+    statsFolder.add(this.state.validation.info, 'hasTextures');
+    statsFolder.add(this.state.validation.info, 'materialCount');
+    statsFolder.add(this.state.validation.info, 'maxAttributes');
+    statsFolder.add(this.state.validation.info, 'maxInfluences');
+    statsFolder.add(this.state.validation.info, 'maxUVs');
+    statsFolder.add(this.state.validation.info, 'totalTriangleCount');
+    statsFolder.add(this.state.validation.info, 'totalVertexCount');
+    statsFolder.add(this.state.validation.info, 'version');
+
+    if (report.info.extensionsRequired) {
+      const extensionsRequiredFolder = this.validationFolder.addFolder('extensionsRequired (' + report.info.extensionsRequired.length + ')');
+      report.info.extensionsRequired.forEach((v, i) => {
+        const r = {};
+        r[i] = v;
+        extensionsRequiredFolder.add(r, i)
+      });
+    }
+
+    if (report.info.extensionsUsed) {
+      const extensionsUsedFolder = this.validationFolder.addFolder('extensionsUsed (' + report.info.extensionsUsed.length + ')');
+      report.info.extensionsUsed.forEach((v, i) => {
+        const r = {};
+        r[i] = v;
+        extensionsUsedFolder.add(r, i)
+      });
+    }
+
+    if (report.info.resources) {
+      const resourcesFolder = this.validationFolder.addFolder('resources (' + report.info.resources.length + ')');
+      report.info.resources.forEach((r, i) => {
+        const f = resourcesFolder.addFolder(i);
+        if (r.hasOwnProperty('pointer')) f.add(r, 'pointer');
+        if (r.hasOwnProperty('mimeType')) f.add(r, 'mimeType');
+        if (r.hasOwnProperty('storage')) f.add(r, 'storage');
+        if (r.hasOwnProperty('byteLength')) f.add(r, 'byteLength');
+        if (r.hasOwnProperty('image')) {
+          const img = f.addFolder('image');
+          img.add(r.image, 'format')
+          img.add(r.image, 'bits')
+          img.add(r.image, 'width')
+          img.add(r.image, 'height')
+        }
+      });
+    }
+
+    const issuesFolder = this.validationFolder.addFolder('issues (' + [report.issues.numHints, report.issues.numInfos, report.issues.numWarnings, report.issues.numErrors].join(' + ') + ')');
+    issuesFolder.add(report.issues, 'maxSeverity');
+    issuesFolder.add(report.issues, 'truncated');
+    ['hints', 'infos', 'warnings', 'errors'].forEach(k => {
+      const f1 = issuesFolder.addFolder(k + ' (' + report[k].length + ')');
+      report[k].forEach((r, i) => {
+        const f2 = f1.addFolder(i);
+        f2.add(r, 'code')
+        f2.add(r, 'message')
+        f2.add(r, 'severity')
+        f2.add(r, 'pointer')
+      });
+    })
   }
 
   /**
@@ -553,7 +652,7 @@ export class Viewer {
 
   addGUI () {
 
-    const gui = this.gui = new GUI({autoPlace: false, width: 260, hideable: true});
+    const gui = this.gui = new GUI({autoPlace: false, width: 360, hideable: true});
 
     // Display controls.
     const dispFolder = gui.addFolder('Display');
@@ -618,6 +717,11 @@ export class Viewer {
     perfLi.appendChild(this.stats.dom);
     perfLi.classList.add('gui-stats');
     perfFolder.__ul.appendChild( perfLi );
+
+    this.fileFolder = this.gui.addFolder("File");
+
+    // Model Details.
+    this.validationFolder = gui.addFolder("Validation");
 
     const guiWrap = document.createElement('div');
     this.el.appendChild( guiWrap );
@@ -700,6 +804,17 @@ export class Viewer {
         });
         this.animCtrls.push(ctrl);
       });
+    }
+
+    // File Detail
+    if (true) {
+      this.fileFolder.domElement.style.display = '';
+      if (this.fileFolder.__controllers) this.fileFolder.__controllers.forEach(v => v.remove())
+
+      this.fileFolder.add(this.state.file, 'name');
+      this.fileFolder.add(this.state.file, 'size');
+      this.fileFolder.add(this.state.file, 'type');
+      this.fileFolder.add(this.state.file, 'lastModified');
     }
   }
 

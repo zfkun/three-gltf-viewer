@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Preview glTF models using three.js and a drag-and-drop interface.",
   "author": "Don McCurdy <dm@donmccurdy.com> (https://www.donmccurdy.com)",
   "license": "MIT",
