@@ -20,7 +20,12 @@ function createWindow () {
     height: 700,
   })
 
-  mainWindow.loadFile(path.join(__dirname, '../public/index.html'))
+  if (app.isPackaged) {
+    mainWindow.loadFile(path.join(__dirname, 'public/index.html'))
+  }
+  else {
+    mainWindow.loadFile(path.join(__dirname, '../public/index.html'))
+  }
 }
 
 function createShortcut() {
@@ -36,17 +41,6 @@ function createShortcut() {
       win.webContents.session.clearCache(() => {
         win.reload();
       });
-    }
-  });
-  globalShortcut.register('Escape', function () {
-    app.quit();
-  });
-  globalShortcut.register('CommandOrControl+F9', function () {
-    let win = BrowserWindow.getFocusedWindow();
-    if (win) {
-      win.webContents.isDevToolsOpened() ?
-        win.webContents.closeDevTools() :
-        win.webContents.openDevTools();
     }
   });
 }
