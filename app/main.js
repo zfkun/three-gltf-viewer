@@ -9,7 +9,10 @@ log.info('App starting...');
 
 function sendStatusToWindow(text) {
   log.info(text);
-  win.webContents.send('message', text);
+  let win = BrowserWindow.getFocusedWindow();
+  if (win) {
+    win.webContents.send('message', text);
+  }
 }
 
 function createWindow () {
