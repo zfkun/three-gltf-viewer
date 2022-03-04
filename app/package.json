@@ -10,11 +10,13 @@
         "build": "electron-builder --x64 --mac --win",
         "publish": "electron-builder --x64 --mac --win -p onTagOrDraft"
     },
+    "dependencies": {
+        "electron-updater": "^4.6.5"
+    },
     "devDependencies": {
         "electron": "^17.0.0",
         "electron-builder": "^22.14.13",
-        "electron-log": "^4.4.6",
-        "electron-updater": "^4.6.5"
+        "electron-log": "^4.4.6"
     },
     "build": {
         "files": [
