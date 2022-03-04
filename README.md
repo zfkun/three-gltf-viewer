@@ -9,6 +9,7 @@ Viewer: [https://www.zfkun.com/tools/gltf-viewer/](https://www.zfkun.com/tools/g
 
 ## Feature
 
+- [x] Build App support
 - [x] GUI add File Info
 - [x] GUI add Validation Info
 - [x] remove new blank page for validation report
@@ -21,6 +22,15 @@ Viewer: [https://www.zfkun.com/tools/gltf-viewer/](https://www.zfkun.com/tools/g
 ```
 npm install
 npm run dev
+```
+
+## Build App
+
+```
+cd ./app
+npm install
+npm run pack:mac
+npm run pack:win
 ```
 
 ## glTF 2.0 Resources
