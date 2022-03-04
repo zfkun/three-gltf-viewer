@@ -1,60 +1,70 @@
 {
-    "name": "gltf-viewer",
+    "name": "three-gltf-viewer",
     "version": "1.5.2",
     "description": "Desktop app for GlTF Viewer",
     "main": "main.js",
     "author": "zfkun",
     "license": "MIT",
     "scripts": {
-      "start": "electron .",
-      "pack:win": "electron-builder --x64 --win --dir",
-      "dist:win": "electron-builder --x64 --win",
-      "pack:mac": "electron-builder --x64 --mac --dir",
-      "dist:mac": "electron-builder --x64 --mac"
+        "start": "electron .",
+        "publish": "electron-builder --x64 --mac --win -p onTagOrDraft",
+        "publish:mac": "electron-builder --x64 --mac -p onTagOrDraft",
+        "publish:win": "electron-builder --x64 --win -p onTagOrDraft"
     },
     "devDependencies": {
-      "electron": "^17.0.0",
-      "electron-builder": "^22.14.13"
+        "electron": "^17.0.0",
+        "electron-builder": "^22.14.13",
+        "electron-log": "^4.4.6",
+        "electron-updater": "^4.6.5"
     },
     "build": {
-      "files": [
-        {
-          "from": "../public",
-          "to": "./public",
-          "filter": ["**/*"]
+        "files": [
+            {
+                "from": "../public",
+                "to": "./public",
+                "filter": [
+                    "**/*"
+                ]
+            },
+            "**/*",
+            "!dist",
+            "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+            "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+            "!**/node_modules/*.d.ts",
+            "!**/node_modules/.bin",
+            "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+            "!.editorconfig",
+            "!**/._*",
+            "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+            "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+            "!**/{appveyor.yml,.travis.yml,circle.yml}",
+            "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+        ],
+        "directories": {
+            "output": "dist"
         },
-        "**/*",
-        "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
-        "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
-        "!**/node_modules/*.d.ts",
-        "!**/node_modules/.bin",
-        "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
-        "!.editorconfig",
-        "!**/._*",
-        "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
-        "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
-        "!**/{appveyor.yml,.travis.yml,circle.yml}",
-        "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
-      ],
-      "directories": {
-        "output": "dist"
-      },
-      "appId": "com.zfkun.gltf-viewer",
-      "productName": "glTF Viewer",
-      "artifactName": "GltfViewer-${arch}.${ext}",
-      "win": {
-          "target": "portable",
-          "icon": "../public/assets/icons/glTF-Viewer.png"
-      },
-      "mac": {
-        "category": "public.app-category.graphics-design",
-        "target": "dmg",
-        "icon": "../public/assets/icons/glTF-Viewer.icns"
-      },
-      "electronDownload": {
-        "mirror": "https://registry.npmmirror.com/-/binary/electron/",
-        "customDir": "v17.0.0"
-      }
+        "appId": "com.zfkun.gltf-viewer",
+        "productName": "glTF Viewer",
+        "artifactName": "GltfViewer-${arch}.${ext}",
+        "win": {
+            "target": "portable",
+            "icon": "../public/assets/icons/glTF-Viewer.png"
+        },
+        "mac": {
+            "category": "public.app-category.graphics-design",
+            "target": "dmg",
+            "icon": "../public/assets/icons/glTF-Viewer.icns"
+        },
+        "electronDownload": {
+            "mirror": "https://registry.npmmirror.com/-/binary/electron/",
+            "customDir": "v17.0.0"
+        },
+        "publish": [
+            {
+                "provider": "github",
+                "owner": "zfkun",
+                "repo": "three-gltf-viewer"
+            }
+        ]
     }
-  }
-  
+}
