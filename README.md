@@ -5,7 +5,16 @@ Preview glTF 2.0 models in WebGL using three.js and a drag-and-drop interface.
 Viewer: [https://www.zfkun.com/tools/gltf-viewer/](https://www.zfkun.com/tools/gltf-viewer/)
 
 
-![screenshot](https://user-images.githubusercontent.com/1848368/31580352-b7354096-b101-11e7-86d7-f07677835812.png)
+![image](https://user-images.githubusercontent.com/646583/156687495-774537f5-16e3-4117-a4cb-8295647ee01a.png)
+
+## Feature
+
+- [x] GUI add File Info
+- [x] GUI add Validation Info
+- [x] remove new blank page for validation report
+- [x] add validation report modal
+- [ ] i18n support
+
 
 ## Quickstart
 
