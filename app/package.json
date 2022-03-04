@@ -47,13 +47,17 @@
         "productName": "glTF Viewer",
         "artifactName": "GltfViewer-${arch}.${ext}",
         "win": {
-            "target": "portable",
+            "target": "nsis",
             "icon": "../public/assets/icons/glTF-Viewer.png"
         },
         "mac": {
             "category": "public.app-category.graphics-design",
             "target": "dmg",
             "icon": "../public/assets/icons/glTF-Viewer.icns"
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true
         },
         "electronDownload": {
             "mirror": "https://registry.npmmirror.com/-/binary/electron/",
