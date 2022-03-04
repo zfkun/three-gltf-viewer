@@ -7,9 +7,8 @@
     "license": "MIT",
     "scripts": {
         "start": "electron .",
-        "publish": "electron-builder --x64 --mac --win -p onTagOrDraft",
-        "publish:mac": "electron-builder --x64 --mac -p onTagOrDraft",
-        "publish:win": "electron-builder --x64 --win -p onTagOrDraft"
+        "build": "electron-builder --x64 --mac --win",
+        "publish": "electron-builder --x64 --mac --win -p onTagOrDraft"
     },
     "devDependencies": {
         "electron": "^17.0.0",

@@ -29,8 +29,7 @@ npm run dev
 ```
 cd ./app
 npm install
-npm run pack:mac
-npm run pack:win
+npm run build
 ```
 
 ## glTF 2.0 Resources
