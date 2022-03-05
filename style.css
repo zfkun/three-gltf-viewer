@@ -119,7 +119,8 @@ header .item:hover {
   background: #444;
 }
 
-header button.item {
+header button.item,
+header .button.item {
   height: 34px;
   line-height: 35px;
   padding: 0 1em;
@@ -131,7 +132,8 @@ header button.item {
   cursor: pointer;
 }
 
-header button.item:hover {
+header button.item:hover,
+header .button.item:hover {
   color: #000;
 }
 

@@ -1,6 +1,6 @@
 {
     "name": "three-gltf-viewer",
-    "version": "1.5.2",
+    "version": "1.5.3",
     "description": "Desktop app for GlTF Viewer",
     "main": "main.js",
     "author": "zfkun",
